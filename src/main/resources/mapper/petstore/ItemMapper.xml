@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.csu.petstoreplus.petstore.mapper.ItemMapper">
+    <select id="getItemListByProduct" resultType="item" parameterType="string">
+        SELECT ITEMID,I.PRODUCTID as PRODUCTID,LISTPRICE,UNITCOST,SUPPLIER,STATUS,i.attr1,i.attr2,P.NAME AS productname ,P.DESCN AS DESCN
+        FROM ITEM I,PRODUCT P
+        WHERE P.PRODUCTID = I.PRODUCTID AND I.PRODUCTID = #{productId}
+    </select>
+
+    <select id="getItem" resultType="item" parameterType="string">
+        SELECT I.ITEMID,I.PRODUCTID as PRODUCTID,LISTPRICE,UNITCOST,SUPPLIER,STATUS,P.NAME AS NAME ,P.DESCN AS DESCN,QTY AS quantity
+        FROM ITEM I,PRODUCT P,INVENTORY V
+        WHERE P.PRODUCTID = I.PRODUCTID AND  I.ITEMID = V.ITEMID AND I.ITEMID = #{itemId}
+    </select>
+
+    <select id="getItemListBySupplierId" resultType="item" parameterType="string">
+        SELECT a.*,b.name AS suppname,c.name AS productname, i.qty  as number, c.descn as imgUrl
+        FROM item a,supplier b,product c, inventory i
+        WHERE a.supplier=b.suppid AND a.`productid`=c.`productid` AND b.suppid = #{suppid} and a.itemid =i.itemid ;
+
+    </select>
+</mapper>

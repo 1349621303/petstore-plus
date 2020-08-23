@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="account" type="org.csu.petstoreplus.petstore.entity.Account" />
+		<typeAlias alias="inventory" type="org.csu.petstoreplus.petstore.entity.Inventory" />
+		<typeAlias alias="item" type="org.csu.petstoreplus.petstore.entity.Item" />
+		<typeAlias alias="orders" type="org.csu.petstoreplus.petstore.entity.Orders" />
+		<typeAlias alias="cart" type="org.csu.petstoreplus.petstore.entity.Cart"/>
+		<typeAlias alias="supplier" type="org.csu.petstoreplus.petstore.entity.Supplier" />
+		<typeAlias alias="Syslog" type="org.csu.petstoreplus.petstore.entity.Syslog"/>
+	</typeAliases>
+</configuration>

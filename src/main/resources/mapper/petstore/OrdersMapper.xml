@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.csu.petstoreplus.petstore.mapper.OrdersMapper">
+    <select id="getOrderByOrderId" parameterType="int" resultType="orders">
+        SELECT a.*,b.*
+        FROM orders a, orderstatus b
+        WHERE a.orderid = #{orderId} AND a.orderid = b.orderid
+    </select>
+
+    <select id="getOrdersByUserId" parameterType="string" resultType="orders">
+        select a.*,b.*
+        from orders a, orderstatus b
+        where a.userid = #{value}
+          and a.orderid = b.orderid
+        order by orderdate
+    </select>
+
+    <select id="getSupplierOrders" parameterType="string" resultType="orders">
+       SELECT a.*, b.itemid, p.descn as imgUrl FROM orders a,lineitem b,item c, product p WHERE a.orderid=b.orderid AND b.itemid=c.itemid and p.productid = c.productid AND c.supplier = #{suppid} ;
+    </select>
+</mapper>
