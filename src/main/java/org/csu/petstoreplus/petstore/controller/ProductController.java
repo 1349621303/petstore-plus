@@ -2,6 +2,7 @@ package org.csu.petstoreplus.petstore.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.ibatis.annotations.Param;
 import org.csu.petstoreplus.petstore.entity.Product;
 import org.csu.petstoreplus.petstore.service.impl.ProductServiceImpl;
 import org.csu.petstoreplus.petstore.utils.ReturnEntity;
@@ -22,7 +23,6 @@ import java.util.List;
 public class ProductController {
     @Resource
     private ProductServiceImpl productService;
-
     //映射位置
     @RequestMapping(value = "/getProductListByCategory/{categoryId}",method = RequestMethod.GET)
     @ResponseBody

@@ -41,28 +41,25 @@ public class CartController {
 
     @RequestMapping(value = "/getCartList",method = RequestMethod.GET)
     @ResponseBody
-    public ReturnEntity getCartList(String userId)
+    public ReturnEntity getCartList()
     {
-        JSONObject data = new JSONObject();
+        // JSONObject data = new JSONObject();
         HttpSession session = request.getSession();
+        session.setAttribute("userId","j2ee");
+        String userId=(String) session.getAttribute("userId");
+        List<Cart> cartList = cartService.getCartList(userId);
+        // data.put("result",result);
+        return ReturnEntity.ok("成功获取我的购物车列表",cartList);
 
-        Account accountSession=(Account) session.getAttribute("account");
         //是否登录判断
-        if (accountSession!=null ){
-            return ReturnEntity.error("请登录后访问");
-        }else {
-            List<Cart> result = cartService.getCartList(userId);
-            data.put("result",result);
-            return ReturnEntity.ok("成功获取我的购物车列表",data);
-        }
+//        if (accountSession!=null ){
+//            return ReturnEntity.error("请登录后访问");
+//        }else {
+//            List<Cart> result = cartService.getCartList(userId);
+//            data.put("result",result);
+//            return ReturnEntity.ok("成功获取我的购物车列表",data);
+//        }
     }
-
-
-
-
-
-
-
 
     @RequestMapping(value = "/getCartByItemId/{itemId}",method = RequestMethod.GET)
     @ResponseBody
@@ -86,23 +83,7 @@ public class CartController {
         Cart cartItem = cartService.getCartItem(userId,itemId);
 
         return ReturnEntity.ok("通过某 itemId 成功获取购物车列表信息",cartItem);
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     @RequestMapping(value = "/deleteTheItemOutCart",method = RequestMethod.DELETE)
     @ResponseBody
@@ -110,21 +91,34 @@ public class CartController {
     public ReturnEntity deleteTheItemOutCart(@RequestBody Map<String,String> map) throws Exception
     {
         JSONObject data = new JSONObject();
+
         HttpSession session = request.getSession();
+        String  userId = (String) session.getAttribute("userId");
 
-        Account accountSession=(Account) session.getAttribute("account");
+        int result = cartService.deleteTheItemOutCart(userId, map.get("itemid"));
+        List<Cart> cartList = cartService.getCartList(userId);
+        data.put("result",result);
+        data.put("cartList",cartList);
+
+        return ReturnEntity.ok("从我的购物车中移除",data);
+
+
+        // HttpSession session = request.getSession();
+
+        // Account accountSession=(Account) session.getAttribute("account");
         //是否登录判断
-        if (accountSession!=null ){
-            return ReturnEntity.error("请登录后访问");
-        }else {
-            int result = cartService.deleteTheItemOutCart(map.get("userid"), map.get("itemid"));
-            List<Cart> cartList = cartService.getCartList(map.get("userid"));
-            data.put("result",result);
-            data.put("cartList",cartList);
-
-            return ReturnEntity.ok("从我的购物车中移除",data);
-        }
+//        if (accountSession!=null ){
+//            return ReturnEntity.error("请登录后访问");
+//        }else {
+//            int result = cartService.deleteTheItemOutCart(map.get("userid"), map.get("itemid"));
+//            List<Cart> cartList = cartService.getCartList(map.get("userid"));
+//            data.put("result",result);
+//            data.put("cartList",cartList);
+//
+//            return ReturnEntity.ok("从我的购物车中移除",data);
+//        }
     }
+
 
     @RequestMapping(value = "/insertTheItemToCart",method = RequestMethod.POST)
     @ResponseBody

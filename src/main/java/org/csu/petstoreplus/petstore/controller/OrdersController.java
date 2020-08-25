@@ -71,42 +71,67 @@ public class OrdersController {
 
     @RequestMapping(value = "/getOrdersByUser",method = RequestMethod.GET)
     @ResponseBody
-    public ReturnEntity getOrdersByUser(String userId)
+    public ReturnEntity getOrdersByUser()
     {
-        JSONObject data = new JSONObject();
+//        JSONObject data = new JSONObject();
         HttpSession session = request.getSession();
+        String  userId = (String) session.getAttribute("userId");
 
-        Account accountSession=(Account) session.getAttribute("account");
+
+
+        List<Orders> ordersList = ordersService.getOrdersByUserId(userId);
+        // data.put("result",result);
+        return ReturnEntity.ok("买家成功获取订单列表",ordersList);
+
+        // Account accountSession=(Account) session.getAttribute("account");
         //是否登录判断
-        if (accountSession==null ){
-            return ReturnEntity.error("请登录后访问");
-        }else {
-            List<Orders> result = ordersService.getOrdersByUserId(userId);
-            data.put("result",result);
-            return ReturnEntity.ok("买家成功获取订单列表",data);
-        }
+//        if (accountSession==null ){
+//            return ReturnEntity.error("请登录后访问");
+//        }else {
+//            List<Orders> result = ordersService.getOrdersByUserId(userId);
+//            data.put("result",result);
+//            return ReturnEntity.ok("买家成功获取订单列表",data);
+//        }
     }
+
+
+
+
 
     @RequestMapping(value = "/getOrdersByOrderId",method = RequestMethod.GET)
     @ResponseBody
     public ReturnEntity getOrdersByOrderId(int orderId)
     {
-        JSONObject data = new JSONObject();
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
+        //String  userId = (String) session.getAttribute("userId");
 
-        Account accountSession=(Account) session.getAttribute("account");
-        //是否登录判断
-        if (accountSession==null ){
-            return ReturnEntity.error("请登录后访问");
-        }else {
-            Orders orders = ordersService.getOrderByOrderId(orderId);
-            if (orders==null){
-                return ReturnEntity.error("用户无法访问");
-            }
-            data.put("result",orders);
-            return ReturnEntity.ok("成功获取订单信息",data);
-        }
+        Orders orders = ordersService.getOrderByOrderId(orderId);
+
+            // data.put("result",orders);
+        return ReturnEntity.ok("成功获取订单信息",orders);
+
+
+//        JSONObject data = new JSONObject();
+//        HttpSession session = request.getSession();
+//
+//        Account accountSession=(Account) session.getAttribute("account");
+//        //是否登录判断
+//        if (accountSession==null ){
+//            return ReturnEntity.error("请登录后访问");
+//        }else {
+//            Orders orders = ordersService.getOrderByOrderId(orderId);
+//            if (orders==null){
+//                return ReturnEntity.error("用户无法访问");
+//            }
+//            data.put("result",orders);
+//            return ReturnEntity.ok("成功获取订单信息",data);
+//        }
     }
+
+
+
+
+
 
     //在打开创建新订单界面的时候开始执行初始化操作
     @RequestMapping(value = "/getOrderInit",method = RequestMethod.GET)

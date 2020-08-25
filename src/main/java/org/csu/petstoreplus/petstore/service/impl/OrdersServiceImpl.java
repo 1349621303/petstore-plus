@@ -58,24 +58,22 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             lineitem.setQuantity(cartList.get(i).getQuantity());
             lineitem.setUnitprice(cartList.get(i).getListprice());
             lineitemMapper.insert(lineitem);
-
-            //insertOrderStatus 方法
-            Orderstatus orderstatus = new Orderstatus();
-            orderstatus.setOrderid(orderId);
-            orderstatus.setLinenum(i+1);
-            orderstatus.setStatus("P"); //写死的
-            orderstatus.setTimestamp(LocalDate.now());
-
-            //orderstatus.setStatus(accountMapper.getAccountByUserId(order.getUserid()).getStatus());
-
-            orderstatusMapper.insert(orderstatus);
-
             //更新库存数量
             Inventory inventory = new Inventory();
             inventory.setItemid(cartList.get(i).getItemid());
             inventory.setQty(cartList.get(i).getQuantity());
             inventoryMapper.updateInventoryQuantity(inventory);
         }
+        //insertOrderStatus 方法
+        Orderstatus orderstatus = new Orderstatus();
+        orderstatus.setOrderid(orderId);
+        orderstatus.setLinenum(orderId);
+        orderstatus.setStatus("P"); //写死的
+        orderstatus.setTimestamp(LocalDate.now());
+
+        //orderstatus.setStatus(accountMapper.getAccountByUserId(order.getUserid()).getStatus());
+
+        orderstatusMapper.insert(orderstatus);
 
         ordersMapper.insert(order);
 
