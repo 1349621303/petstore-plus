@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-07-30
  */
 public interface ISignonService extends IService<Signon> {
+    Signon checkUsername(String username);
 
 }

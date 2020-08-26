@@ -36,7 +36,7 @@ public class CategoryController {
         // JSONObject data = new JSONObject();
         HttpSession session = request.getSession();
 
-        session.setAttribute("userId","j2ee");
+         session.setAttribute("userId","j2ee");
 
 
         List<Category> categoryList = categoryService.getCategoryList();

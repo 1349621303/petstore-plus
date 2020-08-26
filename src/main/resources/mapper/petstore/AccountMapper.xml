@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.csu.petstoreplus.petstore.mapper.AccountMapper">
+<mapper namespace="org.csu.petstoreplus.petstore.mapper.AccountMapper">
+    <select id="getAccountByUserId" resultType="account" parameterType="string">
+        SELECT a.*,b.*,c.* FROM account a,signon b,profile c where a.userid=b.username and a.userid=c.userid and a.userid = #{userid}
+    </select>
 
+    <select id="getAccountByUserIdAndPassword" resultType="account" parameterType="account">
+        SELECT a.*,b.*,c.*
+        FROM account a,signon b,profile c
+        where a.userid=b.username and a.userid=c.userid and a.userid = #{userid} and b.password= #{password}
+    </select>
+
+    <insert id="insertAccount" parameterType="account">
+        INSERT INTO account(userid, email, firstname, lastname, status, addr1, addr2, city, state, zip, country, phone)
+        VALUES( #{userid}, #{email}, #{firstname}, #{lastname}, #{status}, #{addr1},  #{addr2}, #{city}, #{state}, #{zip}, #{country}, #{phone})
+    </insert>
+
+    <insert id="insertProfile" parameterType="account">
+        INSERT INTO profile (userid, langpref, favcategory, mylistopt, banneropt)
+        VALUES (#{userid}, #{langpref}, #{favcategory}, #{mylistopt}, #{banneropt})
+    </insert>
+
+    <insert id="insertSignon" parameterType="account">
+        INSERT INTO signon (PASSWORD,USERNAME)
+        VALUES (#{password}, #{userid})
+    </insert>
+
+    <update id="updateAccount" parameterType="account">
+        update account
+        set email = #{email},
+            firstname = #{firstname},
+            lastname = #{lastname},
+            status = #{status},
+            addr1 = #{addr1},
+            addr2 = #{addr2},
+            city = #{city},
+            state = #{state},
+            zip = #{zip},
+            country = #{country},
+            phone = #{phone}
+        where userid = #{userid}
+    </update>
+
+    <update id="updateProfile" parameterType="account">
+        UPDATE profile SET
+          langpref = #{langpref},
+          favcategory = #{favcategory},
+          mylistopt = #{mylistopt},
+          banneropt = #{banneropt}
+        WHERE userid = #{userid}
+    </update>
+
+    <update id="updateSignon" parameterType="account">
+        UPDATE signon SET
+          password = #{password}
+        WHERE username = #{userid}
+    </update>
 </mapper>

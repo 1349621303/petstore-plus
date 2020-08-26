@@ -45,11 +45,19 @@ public class CartController {
     {
         // JSONObject data = new JSONObject();
         HttpSession session = request.getSession();
-        session.setAttribute("userId","j2ee");
+        // session.setAttribute("userId","j2ee");
+        // session.getAttribute("userId");
         String userId=(String) session.getAttribute("userId");
-        List<Cart> cartList = cartService.getCartList(userId);
-        // data.put("result",result);
-        return ReturnEntity.ok("成功获取我的购物车列表",cartList);
+
+        if (userId != null) {
+            List<Cart> cartList = cartService.getCartList(userId);
+            return ReturnEntity.ok("成功获取我的购物车列表",cartList);
+        } else {
+            return ReturnEntity.error("请登录后访问");
+        }
+
+
+
 
         //是否登录判断
 //        if (accountSession!=null ){
