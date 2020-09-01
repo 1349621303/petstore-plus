@@ -31,19 +31,12 @@ public class CategoryController {
     @RequestMapping(value = "/getCategoryList",method = RequestMethod.GET)
     @ResponseBody
     public ReturnEntity getCategoryList(){
-
-
-        // JSONObject data = new JSONObject();
         HttpSession session = request.getSession();
-
          session.setAttribute("userId","j2ee");
-
-
         List<Category> categoryList = categoryService.getCategoryList();
         if (categoryList == null) {
             return ReturnEntity.error("获取商品列表失败");
         }
-        //data.put("categoryList",categoryList);
         return ReturnEntity.ok("获取商品列表成功",categoryList);
     }
 
